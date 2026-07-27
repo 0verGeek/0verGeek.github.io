@@ -6,3 +6,4 @@ cover:
 title: 来自Obsidian
 ---
 这是一片来自obsidian的测试文章
+测试封面图片
