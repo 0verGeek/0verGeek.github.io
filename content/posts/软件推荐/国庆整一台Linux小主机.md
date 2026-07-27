@@ -1,10 +1,5 @@
 ---
-tags:
-  - Linux
-  - 装机
-  - Omarchy
 draft: true
-date: "{{ .Date }}"
 ---
 ## 简单清灰
 国庆放假前心血来潮，想要组一台Linux小主机，正好还刷到了有新的Linux发行版，叫什么Omarchy，看了一眼官网，风格还挺符合我的审美。

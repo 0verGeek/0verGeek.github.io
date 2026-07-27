@@ -1,12 +1,9 @@
+<div id="giscus-comment-wrapper"></div>
 <script>
     (function () {
         const html = document.documentElement;
         const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
-        let lastGiscusTheme = null;
 
-        /**
-         * 根据 html[data-theme] 计算对应的 Giscus 主题名称
-         */
         function getTargetGiscusTheme() {
             const mode = html.getAttribute('data-theme');
             switch (mode) {
@@ -20,46 +17,80 @@
             }
         }
 
-        /**
-         * 同步评论组件主题，避免重复调用
-         */
-        function syncCommentTheme() {
-            const targetTheme = getTargetGiscusTheme();
-            // 相同主题跳过，防止频繁刷新
-            if (targetTheme === lastGiscusTheme) return;
-            lastGiscusTheme = targetTheme;
-
-            if (typeof giscus !== 'undefined') {
-                giscus.setConfig({
-                    theme: targetTheme
-                });
-            }
+        function createGiscusScript() {
+            const script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', '0verGeek/0verGeek.github.io');
+            script.setAttribute('data-repo-id', 'R_kgDOTkG3ig');
+            script.setAttribute('data-category', 'Blog Comments');
+            script.setAttribute('data-category-id', 'DIC_kwDOTkG3is4DCA7N');
+            script.setAttribute('data-mapping', 'pathname');
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '1');
+            script.setAttribute('data-input-position', 'top');
+            script.setAttribute('data-theme', getTargetGiscusTheme());
+            script.setAttribute('data-lang', 'zh-CN');
+            script.setAttribute('data-loading', 'lazy');
+            script.crossOrigin = 'anonymous';
+            script.async = true;
+            return script;
         }
 
-        // 页面初次加载执行一次
-        document.addEventListener('DOMContentLoaded', syncCommentTheme);
+        function renderGiscus() {
+            const wrapper = document.getElementById('giscus-comment-wrapper');
+            if (!wrapper) return;
+            wrapper.innerHTML = '';
+            wrapper.appendChild(createGiscusScript());
+        }
 
-        // 1. 监听 PaperMod 手动切换主题：data-theme 属性变化
-        const attrObserver = new MutationObserver(() => {
-            syncCommentTheme();
-        });
-        attrObserver.observe(html, {
-            attributes: true,
-            attributeFilter: ['data-theme']
-        });
+        function reloadGiscus() {
+            const wrapper = document.getElementById('giscus-comment-wrapper');
+            if (!wrapper) return;
+            wrapper.innerHTML = '';
+            wrapper.appendChild(createGiscusScript());
+        }
 
-        // 2. auto 模式下，系统明暗自动变化监听
-        mediaDark.addEventListener('change', () => {
-            // 只有站点当前模式为 auto 才响应系统变化
-            if (html.getAttribute('data-theme') === 'auto') {
-                syncCommentTheme();
+        function syncCommentTheme() {
+            const targetTheme = getTargetGiscusTheme();
+
+            if (typeof giscus !== 'undefined' && typeof giscus.setConfig === 'function') {
+                giscus.setConfig({ theme: targetTheme });
+                return;
             }
-        });
+
+            reloadGiscus();
+        }
+
+        function onThemeChanged() {
+            setTimeout(syncCommentTheme, 80);
+        }
+
+        function initThemeSync() {
+            renderGiscus();
+
+            const observer = new MutationObserver(onThemeChanged);
+            observer.observe(html, {
+                attributes: true,
+                attributeFilter: ['data-theme']
+            });
+
+            const themeToggleButton = document.getElementById('theme-toggle');
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', onThemeChanged);
+            }
+
+            mediaDark.addEventListener('change', () => {
+                if (html.getAttribute('data-theme') === 'auto') {
+                    onThemeChanged();
+                }
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initThemeSync);
+        } else {
+            initThemeSync();
+        }
     })();
 </script>
-
-<script src="https://giscus.app/client.js" data-repo="0verGeek/myBlog" data-repo-id="R_kgDOTkG3ig"
-    data-category="Blog Comments" data-category-id="DIC_kwDOTkG3is4DCA7N" data-mapping="pathname" data-strict="1"
-    data-reactions-enabled="1" data-emit-metadata="1" data-input-position="top" data-theme="preferred_color_scheme"
-    data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
-    </script>
