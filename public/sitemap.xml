@@ -3,35 +3,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2026-07-26T04:25:19+08:00</lastmod>
+    <loc>https://exampel.com/posts/next/</loc>
   </url><url>
-    <loc>http://localhost:1313/posts/test/</loc>
-    <lastmod>2026-07-26T04:25:19+08:00</lastmod>
+    <loc>https://exampel.com/posts/previous/</loc>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2026-07-26T04:25:19+08:00</lastmod>
+    <loc>https://exampel.com/</loc>
   </url><url>
-    <loc>http://localhost:1313/posts/next/</loc>
+    <loc>https://exampel.com/tags/chapter-12/</loc>
   </url><url>
-    <loc>http://localhost:1313/posts/previous/</loc>
+    <loc>https://exampel.com/tags/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/chapter-12/</loc>
+    <loc>https://exampel.com/tags/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://exampel.com/posts/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86%E5%AD%A6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86/</loc>
+    <loc>https://exampel.com/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/posts/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86%E5%AD%A6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</loc>
+    <loc>https://exampel.com/about/</loc>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://exampel.com/archives/</loc>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://exampel.com/tags/%E6%95%B0%E4%B8%80only/</loc>
   </url><url>
-    <loc>http://localhost:1313/archives/</loc>
+    <loc>https://exampel.com/search/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/%E6%95%B0%E4%B8%80only/</loc>
-  </url><url>
-    <loc>http://localhost:1313/search/</loc>
+    <loc>https://exampel.com/posts/</loc>
   </url>
 </urlset>

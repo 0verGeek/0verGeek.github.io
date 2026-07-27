@@ -14,7 +14,7 @@
 baseURL: "https://exampel.com/" # 🔴 网站根 URL，生产环境必须填写
 title: "0verGeek" # 🟢 浏览器标题栏显示的文字
 theme: PaperMod # 🟢 主题名称（必须与 themes/ 目录匹配）
-languageCode: "zh-cn" # 🟡 语言代码，影响日期格式等
+locale: "zh-CN" # 🟡 站点语言区域设置
 defaultContentLanguage: "zh" # 🟡 默认内容语言
 paginate: 5 # 🟢 每页显示的文章数（列表页翻页用）
 
@@ -87,6 +87,9 @@ taxonomies:
 # 📜 语法高亮 — Hugo 内置的 Chroma（推荐）
 # =============================================================================
 markup:
+  goldmark:
+    renderer:
+      unsafe: true # 🟢 允许正文中使用原始 HTML（如 <div> 包裹公式）
   highlight:
     noClasses: false # 🟢 使用 CSS 类而非行内样式
     codeFences: true # 🟢 支持 ``` 代码块
