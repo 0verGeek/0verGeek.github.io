@@ -194,9 +194,9 @@ params:
   ShowCodeCopyButtons: true # 🟢 代码块右上角显示复制按钮
   ShowShareButtons: true # 🟡 文章底部显示分享按钮
   ShowRssButtonInSectionTermList: true # 🟡 分类/标签页显示 RSS 按钮
-  UseHugoToc: true # 🟢 使用 Hugo 自带的目录生成
+  UseHugoToc: false # 🟢 使用 Hugo 自带的目录生成
   ShowToc: true # 🟡 是否默认显示目录（false=折叠）
-  # TocOpen: true                                   # 🟡 目录是否默认展开（需配合 showtoc）
+  TocOpen: true                                   # 🟡 目录是否默认展开（需配合 showtoc）
   # hidemeta: false                                 # 🟡 隐藏文章元信息（日期、作者等）
   # hideSummary: false                              # 🟡 在列表页隐藏摘要
   # hideFooter: false                               # 🟡 隐藏页脚
