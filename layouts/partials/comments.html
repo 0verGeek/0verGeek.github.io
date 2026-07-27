@@ -4,6 +4,9 @@
         const html = document.documentElement;
         const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
 
+        /**
+         * 根据页面主题，返回 Giscus 需要的主题值。
+         */
         function getTargetGiscusTheme() {
             const mode = html.getAttribute('data-theme');
             switch (mode) {
@@ -17,6 +20,9 @@
             }
         }
 
+        /**
+         * 创建一个新的 Giscus script 标签。
+         */
         function createGiscusScript() {
             const script = document.createElement('script');
             script.src = 'https://giscus.app/client.js';
@@ -37,37 +43,39 @@
             return script;
         }
 
-        function renderGiscus() {
+        /**
+         * 渲染或重新渲染评论区。
+         */
+        function loadGiscus() {
             const wrapper = document.getElementById('giscus-comment-wrapper');
             if (!wrapper) return;
             wrapper.innerHTML = '';
             wrapper.appendChild(createGiscusScript());
         }
 
-        function reloadGiscus() {
-            const wrapper = document.getElementById('giscus-comment-wrapper');
-            if (!wrapper) return;
-            wrapper.innerHTML = '';
-            wrapper.appendChild(createGiscusScript());
-        }
-
-        function syncCommentTheme() {
-            const targetTheme = getTargetGiscusTheme();
+        /**
+         * 尝试通过 giscus API 设置主题，否则重新加载评论区。
+         */
+        function updateGiscusTheme() {
+            const theme = getTargetGiscusTheme();
 
             if (typeof giscus !== 'undefined' && typeof giscus.setConfig === 'function') {
-                giscus.setConfig({ theme: targetTheme });
+                giscus.setConfig({ theme });
                 return;
             }
 
-            reloadGiscus();
+            loadGiscus();
         }
 
+        /**
+         * 主题变化时触发，给页面一些时间让 data-theme 完全更新。
+         */
         function onThemeChanged() {
-            setTimeout(syncCommentTheme, 80);
+            setTimeout(updateGiscusTheme, 80);
         }
 
         function initThemeSync() {
-            renderGiscus();
+            loadGiscus();
 
             const observer = new MutationObserver(onThemeChanged);
             observer.observe(html, {
