@@ -1,3 +1,63 @@
+<script>
+    (function () {
+        const html = document.documentElement;
+        const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
+        let lastGiscusTheme = null;
+
+        /**
+         * 根据 html[data-theme] 计算对应的 Giscus 主题名称
+         */
+        function getTargetGiscusTheme() {
+            const mode = html.getAttribute('data-theme');
+            switch (mode) {
+                case 'dark':
+                    return 'dark_dimmed';
+                case 'light':
+                    return 'light';
+                case 'auto':
+                default:
+                    return mediaDark.matches ? 'dark_dimmed' : 'light';
+            }
+        }
+
+        /**
+         * 同步评论组件主题，避免重复调用
+         */
+        function syncCommentTheme() {
+            const targetTheme = getTargetGiscusTheme();
+            // 相同主题跳过，防止频繁刷新
+            if (targetTheme === lastGiscusTheme) return;
+            lastGiscusTheme = targetTheme;
+
+            if (typeof giscus !== 'undefined') {
+                giscus.setConfig({
+                    theme: targetTheme
+                });
+            }
+        }
+
+        // 页面初次加载执行一次
+        document.addEventListener('DOMContentLoaded', syncCommentTheme);
+
+        // 1. 监听 PaperMod 手动切换主题：data-theme 属性变化
+        const attrObserver = new MutationObserver(() => {
+            syncCommentTheme();
+        });
+        attrObserver.observe(html, {
+            attributes: true,
+            attributeFilter: ['data-theme']
+        });
+
+        // 2. auto 模式下，系统明暗自动变化监听
+        mediaDark.addEventListener('change', () => {
+            // 只有站点当前模式为 auto 才响应系统变化
+            if (html.getAttribute('data-theme') === 'auto') {
+                syncCommentTheme();
+            }
+        });
+    })();
+</script>
+
 <script src="https://giscus.app/client.js" data-repo="0verGeek/myBlog" data-repo-id="R_kgDOTkG3ig"
     data-category="Blog Comments" data-category-id="DIC_kwDOTkG3is4DCA7N" data-mapping="pathname" data-strict="1"
     data-reactions-enabled="1" data-emit-metadata="1" data-input-position="top" data-theme="preferred_color_scheme"

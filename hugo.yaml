@@ -12,7 +12,7 @@
 # 🏗️ 核心配置 — 必填项
 # =============================================================================
 baseURL: "https://0verGeek.github.io/" # 🔴 网站根 URL，生产环境必须填写
-title: "0verGeek" # 🟢 浏览器标题栏显示的文字
+title: "依然da文西's Blog" # 🟢 浏览器标题栏显示的文字
 theme: PaperMod # 🟢 主题名称（必须与 themes/ 目录匹配）
 locale: "zh-CN" # 🟡 站点语言区域设置
 defaultContentLanguage: "zh" # 🟡 默认内容语言
@@ -108,10 +108,10 @@ params:
   # 🌍 环境 & 基础信息
   # ---------------------------------------------------------------------------
   env: production # 🟢 设为 production 时会启用某些优化
-  title: "0verGeek" # 🟢 覆盖顶部 title 显示
+  title: "依然da文西's Blog" # 🟢 覆盖顶部 title 显示
   description: "这是我的个人博客" # 🟢 站点描述，SEO 重要
   keywords: [Blog, 博客, PaperMod] # 🟡 SEO 关键词
-  author: "0verGeek" # 🟢 全局作者名（文章可单独覆盖）
+  author: "Camuss" # 🟢 全局作者名（文章可单独覆盖）
   images: ["/images/default.png"]
 
   # ---------------------------------------------------------------------------

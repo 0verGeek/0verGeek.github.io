@@ -11,14 +11,10 @@
             "id": "7754edc875f87eb4",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "test.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "test"
+              "title": "新标签页"
             }
           }
         ]
