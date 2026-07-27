@@ -89,6 +89,7 @@ taxonomies:
 markup:
   goldmark:
     renderer:
+      hardWrap: true # 🟢 代码块自动换行
       unsafe: true # 🟢 允许正文中使用原始 HTML（如 <div> 包裹公式）
   highlight:
     noClasses: false # 🟢 使用 CSS 类而非行内样式
