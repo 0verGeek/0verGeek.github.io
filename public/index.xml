@@ -2,41 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>0verGeek</title>
-    <link>https://exampel.com/</link>
+    <link>http://localhost:35147/</link>
     <description>Recent content on 0verGeek</description>
     <image>
       <title>0verGeek</title>
-      <url>https://exampel.com/images/default.png</url>
-      <link>https://exampel.com/images/default.png</link>
+      <url>http://localhost:35147/images/default.png</url>
+      <link>http://localhost:35147/images/default.png</link>
     </image>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <atom:link href="https://exampel.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Jul 2026 04:25:19 +0800</lastBuildDate>
+    <atom:link href="http://localhost:35147/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title></title>
-      <link>https://exampel.com/posts/next/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://exampel.com/posts/next/</guid>
-      <description>&lt;p&gt;im next page&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://exampel.com/posts/previous/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://exampel.com/posts/previous/</guid>
-      <description>&lt;p&gt;im previous page&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>多元积分学及其应用</title>
-      <link>https://exampel.com/posts/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86%E5%AD%A6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://exampel.com/posts/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86%E5%AD%A6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</guid>
-      <description>&lt;h1 id=&#34;第十二章-多元积分学及其应用仅数学一&#34;&gt;第十二章 多元积分学及其应用（仅数学一）&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;考频总览&lt;/strong&gt;：数一要求&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
-&lt;p&gt;行内数学公式：$ a^2 + b^2 = c^2 $。&lt;/p&gt;
+      <title>Test</title>
+      <link>http://localhost:35147/posts/test/</link>
+      <pubDate>Sun, 26 Jul 2026 04:25:19 +0800</pubDate>
+      <guid>http://localhost:35147/posts/test/</guid>
+      <description>&lt;p&gt;hello
+行内数学公式：$ a^2 + b^2 = c^2 $。&lt;/p&gt;
 &lt;p&gt;块公式，&lt;/p&gt;
 &lt;p&gt;$$
 a^2 + b^2 = c^2
@@ -46,6 +29,72 @@ $$
 \boldsymbol{x}_{i+1}+\boldsymbol{x}_{i+2}=\boldsymbol{x}_{i+3}
 $$
 &lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;https://fontsapi.zeoseven.com/442/main/result.css&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;font-family&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Maple Mono NF CN&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;font-weight&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;normal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;mian&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;((&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Hello&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:35147/posts/next/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:35147/posts/next/</guid>
+      <description>&lt;p&gt;im next page&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:35147/posts/previous/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:35147/posts/previous/</guid>
+      <description>&lt;p&gt;im previous page&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>多元积分学及其应用</title>
+      <link>http://localhost:35147/posts/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86%E5%AD%A6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:35147/posts/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86%E5%AD%A6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</guid>
+      <description>&lt;h1 id=&#34;第十二章-多元积分学及其应用仅数学一&#34;&gt;第十二章 多元积分学及其应用（仅数学一）&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;考频总览&lt;/strong&gt;：数一要求&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
 &lt;h2 id=&#34;第一节-三重积分&#34;&gt;第一节 三重积分&lt;/h2&gt;
 &lt;h3 id=&#34;定义与性质&#34;&gt;定义与性质&lt;/h3&gt;
 &lt;p&gt;$\iiint_\Omega f(x,y,z),\mathrm{d}v$，几何意义为空间区域的质量&lt;/p&gt;
@@ -76,13 +125,25 @@ $$&lt;/p&gt;
 &lt;p&gt;$\iint_\Sigma f(x,y,z),\mathrm{d}S$&lt;/p&gt;
 &lt;p&gt;计算：投影到坐标面，$\mathrm{d}S=\sqrt{1+z_x&amp;rsquo;^2+z_y&amp;rsquo;^2},\mathrm{d}x\mathrm{d}y$&lt;/p&gt;
 &lt;h3 id=&#34;第二类曲面积分对坐标&#34;&gt;第二类曲面积分（对坐标）&lt;/h3&gt;
-&lt;p&gt;$\iint_\Sigma P,\mathrm{d}y\mathrm{d}z+Q,\mathrm{d}z\mathrm{d}x+R,\mathrm{d}x\mathrm{d}y$：与曲面侧有关&lt;/p&gt;</description>
+&lt;p&gt;$\iint_\Sigma P,\mathrm{d}y\mathrm{d}z+Q,\mathrm{d}z\mathrm{d}x+R,\mathrm{d}x\mathrm{d}y$：与曲面侧有关&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;高斯公式&lt;/strong&gt;（沟通曲面积分与三重积分）：
+$$
+\oiint_{\partial\Omega}P,\mathrm{d}y\mathrm{d}z+Q,\mathrm{d}z\mathrm{d}x+R,\mathrm{d}x\mathrm{d}y=\iiint_\Omega\left(\frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z}\right)\mathrm{d}v
+$$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;斯托克斯公式&lt;/strong&gt;（沟通曲线积分与曲面积分）：
+$$
+\oint_{\Gamma}P,\mathrm{d}x+Q,\mathrm{d}y+R,\mathrm{d}z=\iint_\Sigma\begin{vmatrix}
+\mathrm{d}y\mathrm{d}z&amp;amp;\mathrm{d}z\mathrm{d}x&amp;amp;\mathrm{d}x\mathrm{d}y\
+\frac{\partial}{\partial x}&amp;amp;\frac{\partial}{\partial y}&amp;amp;\frac{\partial}{\partial z}\
+P&amp;amp;Q&amp;amp;R
+\end{vmatrix}
+$$&lt;/p&gt;</description>
     </item>
     <item>
       <title>关于</title>
-      <link>https://exampel.com/about/</link>
+      <link>http://localhost:35147/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://exampel.com/about/</guid>
+      <guid>http://localhost:35147/about/</guid>
       <description>&lt;p&gt;这里写关于你的内容&amp;hellip;&lt;/p&gt;</description>
     </item>
   </channel>

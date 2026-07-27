@@ -1,0 +1,40 @@
+/* 自定义字体：正文用霞鹜文楷，代码用等宽字体 */
+
+:root {
+    --font-sans: "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    --font-serif: "LXGW WenKai Screen", "Noto Serif SC", "Songti SC", "Times New Roman", serif;
+    --font-mono: "Maple Mono NF CN", "Fira Code", "JetBrains Mono", Consolas, monospace;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.entry-title,
+.post-title,
+.post-header h1,
+.toc,
+.post-meta {
+    font-family: var(--font-serif);
+}
+
+pre,
+code,
+kbd,
+samp {
+    font-family: var(--font-mono);
+}
+
+code {
+    font-feature-settings: "liga" 1, "calt" 1;
+}

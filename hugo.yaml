@@ -11,7 +11,7 @@
 # =============================================================================
 # 🏗️ 核心配置 — 必填项
 # =============================================================================
-baseURL: "https://exampel.com/" # 🔴 网站根 URL，生产环境必须填写
+baseURL: "https://exampelsss.com/" # 🔴 网站根 URL，生产环境必须填写
 title: "0verGeek" # 🟢 浏览器标题栏显示的文字
 theme: PaperMod # 🟢 主题名称（必须与 themes/ 目录匹配）
 locale: "zh-CN" # 🟡 站点语言区域设置
@@ -232,11 +232,11 @@ params:
   # 🎨 资源文件 — Favicon 等
   # ---------------------------------------------------------------------------
   assets:
-    favicon: "/favicon.ico" # 🟢 网站图标
-    # favicon16x16: "/favicon-16x16.png"            # 🟡 16x16 图标
-    # favicon32x32: "/favicon-32x32.png"            # 🟡 32x32 图标
-    # apple_touch_icon: "/apple-touch-icon.png"     # 🟡 iOS 主屏图标
-    # safari_pinned_tab: "/safari-pinned-tab.svg"   # 🟡 Safari 标签图标
+    favicon: "/favicon/favicon.ico" # 🟢 网站图标
+    favicon16x16: "/favicon/favicon-16x16.png"            # 🟡 16x16 图标
+    favicon32x32: "/favicon/favicon-32x32.png"            # 🟡 32x32 图标
+    apple_touch_icon: "/favicon/apple-touch-icon.png"     # 🟡 iOS 主屏图标
+    safari_pinned_tab: "/favicon/favicon.svg"   # 🟡 Safari 标签图标
     disableHLJS: true # 🟢 禁用 Highlight.js（使用 Hugo Chroma）
     # disableFingerprinting: true                   # 🔴 禁用资源指纹（不推荐，影响缓存）
 

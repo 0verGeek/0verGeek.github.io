@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>标签 on 0verGeek</title>
-    <link>https://exampel.com/tags/</link>
+    <link>http://localhost:35147/tags/</link>
     <description>Recent content in 标签 on 0verGeek</description>
     <image>
       <title>0verGeek</title>
-      <url>https://exampel.com/images/default.png</url>
-      <link>https://exampel.com/images/default.png</link>
+      <url>http://localhost:35147/images/default.png</url>
+      <link>http://localhost:35147/images/default.png</link>
     </image>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <atom:link href="https://exampel.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:35147/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Chapter-12</title>
-      <link>https://exampel.com/tags/chapter-12/</link>
+      <link>http://localhost:35147/tags/chapter-12/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://exampel.com/tags/chapter-12/</guid>
+      <guid>http://localhost:35147/tags/chapter-12/</guid>
       <description></description>
     </item>
     <item>
       <title>多元积分</title>
-      <link>https://exampel.com/tags/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86/</link>
+      <link>http://localhost:35147/tags/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://exampel.com/tags/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86/</guid>
+      <guid>http://localhost:35147/tags/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86/</guid>
       <description></description>
     </item>
     <item>
       <title>数一only</title>
-      <link>https://exampel.com/tags/%E6%95%B0%E4%B8%80only/</link>
+      <link>http://localhost:35147/tags/%E6%95%B0%E4%B8%80only/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://exampel.com/tags/%E6%95%B0%E4%B8%80only/</guid>
+      <guid>http://localhost:35147/tags/%E6%95%B0%E4%B8%80only/</guid>
       <description></description>
     </item>
   </channel>
