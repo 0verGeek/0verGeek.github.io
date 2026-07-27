@@ -219,7 +219,7 @@ params:
   # ---------------------------------------------------------------------------
   # 💬 评论系统 — 以下四选一
   # ---------------------------------------------------------------------------
-  comments: false # 🟡 true=启用评论（需配合下方模板）
+  comments: true # 🟡 true=启用评论（需配合下方模板）
   # disqusShortname: "你的disqus短名"               # 🟡 Disqus（简单但带广告）
   # 其他评论系统需要自己在 layouts/partials/comments.html 中配置
   # 支持的方案：utterances（GitHub Issues）、giscus（GitHub Discussions）、

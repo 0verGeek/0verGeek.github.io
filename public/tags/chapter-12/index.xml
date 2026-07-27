@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>0verGeek</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content on 0verGeek</description>
+    <title>Chapter-12 on 0verGeek</title>
+    <link>http://localhost:1313/tags/chapter-12/</link>
+    <description>Recent content in Chapter-12 on 0verGeek</description>
     <image>
       <title>0verGeek</title>
       <url>http://localhost:1313/images/default.png</url>
@@ -11,29 +11,7 @@
     </image>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 26 Jul 2026 04:25:19 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Test</title>
-      <link>http://localhost:1313/posts/test/</link>
-      <pubDate>Sun, 26 Jul 2026 04:25:19 +0800</pubDate>
-      <guid>http://localhost:1313/posts/test/</guid>
-      <description>&lt;p&gt;hello&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>http://localhost:1313/posts/next/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/next/</guid>
-      <description>&lt;p&gt;im next page&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>http://localhost:1313/posts/previous/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/previous/</guid>
-      <description>&lt;p&gt;im previous page&lt;/p&gt;</description>
-    </item>
+    <atom:link href="http://localhost:1313/tags/chapter-12/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>多元积分学及其应用</title>
       <link>http://localhost:1313/posts/%E5%A4%9A%E5%85%83%E7%A7%AF%E5%88%86%E5%AD%A6%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/</link>
@@ -87,13 +65,6 @@ $$
 P&amp;amp;Q&amp;amp;R
 \end{vmatrix}
 $$&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>关于</title>
-      <link>http://localhost:1313/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/about/</guid>
-      <description>&lt;p&gt;这里写关于你的内容&amp;hellip;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
