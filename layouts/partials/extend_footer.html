@@ -1,0 +1,19 @@
+<script>
+(function() {
+    // 如果评论框已存在（单篇文章页），comments.html 中的 twikoo.init() 已处理访客统计，跳过
+    if (document.querySelector('#tcomment')) return;
+
+    var spans = document.querySelectorAll('#twikoo_visitors');
+    if (!spans.length) return;
+
+    // 列表页或未开启评论的文章页：动态加载 Twikoo，仅初始化访客统计（不含评论框）
+    var script = document.createElement('script');
+    script.src = 'https://registry.npmmirror.com/twikoo/1.7.15/files/dist/twikoo.min.js';
+    script.onload = function() {
+        twikoo.init({
+            envId: 'https://0vergeek.netlify.app/.netlify/functions/twikoo'
+        });
+    };
+    document.body.appendChild(script);
+})();
+</script>

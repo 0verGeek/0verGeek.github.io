@@ -19,7 +19,7 @@
 {{- end }}
 
 {{- if (.Param "ShowPageViews") -}}
-    {{- $scratch.Add "meta" (slice (printf "<span id='twikoo_visitors'>0</span> 阅读")) }}
+    {{- $scratch.Add "meta" (slice (printf "<span id='twikoo_visitors' data-url='%s'>0</span> 阅读" .RelPermalink)) }}
 {{- end }}
 
 {{/* Combine all meta information into a single string with separators and render it as HTML. */}}
