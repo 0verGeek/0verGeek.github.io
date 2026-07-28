@@ -1,17 +1,23 @@
-<div id="tcomment"></div>
-<script src="https://registry.npmmirror.com/twikoo/1.7.15/files/dist/twikoo.min.js"></script>
-<script>
-    twikoo.init({
-        envId: "https://0vergeek.netlify.app/.netlify/functions/twikoo",   // 腾讯云环境 ID 或 Vercel 地址
-        el: "#tcomment",
-        path: "{{ .Page.RelPermalink }}",
-        lang: "zh-CN",
-        // 可选：区分明暗主题
-        // onCommentLoaded: function () {
-        //     const theme = document.documentElement.getAttribute('data-theme');
-        //     if (theme === 'dark') {
-        //         document.querySelector('#tcomment').classList.add('twikoo-dark');
-        //     }
-        // }
-    });
-</script>
+<head>
+    <!-- ... -->
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
+    <!-- Meta 图标 (可选) -->
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline-meta.css" />
+    <!-- ... -->
+</head>
+
+<body>
+    <!-- ... -->
+    <div id="waline"></div>
+    <script type="module">
+        import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+
+        init({
+            el: '#waline',
+            serverURL: 'https://0vergeek.vercel.app',
+            dark: 'html[data-theme="dark"]',
+            reaction: true,
+            pageview: true,
+        });
+    </script>
+</body>

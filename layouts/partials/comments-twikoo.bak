@@ -1,0 +1,17 @@
+<div id="tcomment"></div>
+<script src="https://registry.npmmirror.com/twikoo/1.7.15/files/dist/twikoo.min.js"></script>
+<script>
+    twikoo.init({
+        envId: "https://0vergeek.netlify.app/.netlify/functions/twikoo",   // 腾讯云环境 ID 或 Vercel 地址
+        el: "#tcomment",
+        path: "{{ .Page.RelPermalink }}",
+        lang: "zh-CN",
+        // 可选：区分明暗主题
+        // onCommentLoaded: function () {
+        //     const theme = document.documentElement.getAttribute('data-theme');
+        //     if (theme === 'dark') {
+        //         document.querySelector('#tcomment').classList.add('twikoo-dark');
+        //     }
+        // }
+    });
+</script>

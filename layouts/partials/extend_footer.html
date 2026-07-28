@@ -1,0 +1,21 @@
+{{- if and (.Param "ShowPageViews") site.Params.walineServerURL }}
+{{- $serverURL := site.Params.walineServerURL }}
+<script>
+    (function () {
+        if (document.getElementById('waline')) return;
+
+        var serverURL = '{{ $serverURL }}';
+
+        function refreshPageviews(update) {
+            import('https://unpkg.com/@waline/client@v3/dist/pageview.js').then(function (mod) {
+                mod.pageviewCount({
+                    serverURL: serverURL,
+                    path: window.location.pathname,
+                    update: update,
+                });
+            });
+        }
+        refreshPageviews(true);
+    })();
+</script>
+{{- end }}

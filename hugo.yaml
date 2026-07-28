@@ -191,6 +191,7 @@ params:
   # ---------------------------------------------------------------------------
   ShowReadingTime: true # 🟢 显示预计阅读时间
   ShowWordCount: true # 🟢 显示字数
+  ShowPageViews: true # 🟢 显示文章访问量（依赖 Waline pageview）
   ShowBreadCrumbs: true # 🟢 显示面包屑导航（首页 > 分类 > 文章名）
   ShowPostNavLinks: true # 🟢 文章底部显示上一篇/下一篇
   ShowCodeCopyButtons: true # 🟢 代码块右上角显示复制按钮
@@ -229,6 +230,12 @@ params:
   # 其他评论系统需要自己在 layouts/partials/comments.html 中配置
   # 支持的方案：utterances（GitHub Issues）、giscus（GitHub Discussions）、
   #           Waline、Twikoo、来比力 等
+
+  # ---------------------------------------------------------------------------
+  # 📊 访问统计 — 基于 Waline pageview（独立于评论系统）
+  # ---------------------------------------------------------------------------
+  walineServerURL: "https://0vergeek.vercel.app" # 🟢 Waline 服务端地址
+  walinePageviewUpdate: true # 🟢 true=每次访问阅读量+1 | false=只读不增
 
   # ---------------------------------------------------------------------------
   # 🎨 资源文件 — Favicon 等
