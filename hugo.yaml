@@ -16,6 +16,7 @@ title: "依然da文西's Blog" # 🟢 浏览器标题栏显示的文字
 theme: PaperMod # 🟢 主题名称（必须与 themes/ 目录匹配）
 locale: "zh-CN" # 🟡 站点语言区域设置
 defaultContentLanguage: "zh" # 🟡 默认内容语言
+hasCJKLanguage: true # 🟢 启用 CJK 语言支持（中文、日文、韩文）
 paginate: 5 # 🟢 每页显示的文章数（列表页翻页用）
 
 # =============================================================================
@@ -89,7 +90,7 @@ taxonomies:
 markup:
   goldmark:
     renderer:
-      hardWrap: true # 🟢 代码块自动换行
+      hardWraps: true # 🟢 代码块自动换行
       unsafe: true # 🟢 允许正文中使用原始 HTML（如 <div> 包裹公式）
   highlight:
     noClasses: false # 🟢 使用 CSS 类而非行内样式
@@ -165,8 +166,8 @@ params:
   socialIcons:
     - name: github
       url: "https://github.com/0verGeek"
-    - name: x # 🟡 即 Twitter/X
-      url: "https://x.com/你的用户名"
+    # - name: x # 🟡 即 Twitter/X
+      # url: "https://x.com/你的用户名"
     - name: email
       url: "mailto:albert.wawnq@gmail.com"
     # - name: zhihu                                # 🟡 知乎
@@ -261,22 +262,25 @@ params:
   # ---------------------------------------------------------------------------
   # 🌐 多语言支持（不需要可注释掉）
   # ---------------------------------------------------------------------------
-  # displayFullLangName: true                       # 🟡 显示完整语言名而非缩写
+  displayFullLangName: true                       # 🟡 显示完整语言名而非缩写
   # defaultContentLanguage: "zh"                    # 🟡 已在顶层配置
 
   # ---------------------------------------------------------------------------
   # 🧩 Schema.org 结构化数据（SEO 增强）
   # ---------------------------------------------------------------------------
-  # schema:
-  #   publisherType: "Organization"                 # 🟡 Organization | Person
-  #   sameAs:                                       # 🟡 社交媒体链接
-  #     - "https://github.com/你的用户名"
+  schema:
+    publisherType: "Organization"                 # 🟡 Organization | Person
+    sameAs:                                       # 🟡 社交媒体链接
+      - "https://github.com/0verGeek"
   #     - "https://x.com/你的用户名"
 
   # ---------------------------------------------------------------------------
   # 📡 RSS 设置
   # ---------------------------------------------------------------------------
-  # ShowFullTextinRSS: true                         # 🟡 RSS 显示全文（否则只显示摘要）
+  rss:
+    title: "依然da文西's Blog"                     # 🟢 RSS 标题
+    description: "这是我的个人博客"                 # 🟢 RSS 描述
+    limit: 20                                      # 🟡 RSS 显示的文章数
 
   # ---------------------------------------------------------------------------
   # 🔗 规范链接（Canonical URL）— 防止内容重复被降权

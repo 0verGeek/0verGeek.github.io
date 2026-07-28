@@ -1,0 +1,104 @@
+<div id="giscus-comment-wrapper"></div>
+<script>
+    (function () {
+        const html = document.documentElement;
+        const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+        /**
+         * 根据页面主题，返回 Giscus 需要的主题值。
+         */
+        function getTargetGiscusTheme() {
+            const mode = html.getAttribute('data-theme');
+            switch (mode) {
+                case 'dark':
+                    return 'dark_dimmed';
+                case 'light':
+                    return 'light';
+                case 'auto':
+                default:
+                    return mediaDark.matches ? 'dark_dimmed' : 'light';
+            }
+        }
+
+        /**
+         * 创建一个新的 Giscus script 标签。
+         */
+        function createGiscusScript() {
+            const script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', '0verGeek/0verGeek.github.io');
+            script.setAttribute('data-repo-id', 'R_kgDOTkG3ig');
+            script.setAttribute('data-category', 'Blog Comments');
+            script.setAttribute('data-category-id', 'DIC_kwDOTkG3is4DCA7N');
+            script.setAttribute('data-mapping', 'pathname');
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '1');
+            script.setAttribute('data-input-position', 'top');
+            script.setAttribute('data-theme', getTargetGiscusTheme());
+            script.setAttribute('data-lang', 'zh-CN');
+            script.setAttribute('data-loading', 'lazy');
+            script.crossOrigin = 'anonymous';
+            script.async = true;
+            return script;
+        }
+
+        /**
+         * 渲染或重新渲染评论区。
+         */
+        function loadGiscus() {
+            const wrapper = document.getElementById('giscus-comment-wrapper');
+            if (!wrapper) return;
+            wrapper.innerHTML = '';
+            wrapper.appendChild(createGiscusScript());
+        }
+
+        /**
+         * 尝试通过 giscus API 设置主题，否则重新加载评论区。
+         */
+        function updateGiscusTheme() {
+            const theme = getTargetGiscusTheme();
+
+            if (typeof giscus !== 'undefined' && typeof giscus.setConfig === 'function') {
+                giscus.setConfig({ theme });
+                return;
+            }
+
+            loadGiscus();
+        }
+
+        /**
+         * 主题变化时触发，给页面一些时间让 data-theme 完全更新。
+         */
+        function onThemeChanged() {
+            setTimeout(updateGiscusTheme, 80);
+        }
+
+        function initThemeSync() {
+            loadGiscus();
+
+            const observer = new MutationObserver(onThemeChanged);
+            observer.observe(html, {
+                attributes: true,
+                attributeFilter: ['data-theme']
+            });
+
+            const themeToggleButton = document.getElementById('theme-toggle');
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', onThemeChanged);
+            }
+
+            mediaDark.addEventListener('change', () => {
+                if (html.getAttribute('data-theme') === 'auto') {
+                    onThemeChanged();
+                }
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initThemeSync);
+        } else {
+            initThemeSync();
+        }
+    })();
+</script>
