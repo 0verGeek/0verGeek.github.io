@@ -186,13 +186,8 @@ params:
   #   icon: "/icon.png"                            # 🟡 图标路径
   #   iconHeight: 35                               # 🟡 图标高度（px）
   footer:
-    text: |
-      本站总访问量 <span id="busuanzi_site_pv">加载中...</span> 次
-      今日总访问量 <span id="busuanzi_today_pv">加载中...</span> 次<br>
-      📂 {{ len .Site.Taxonomies.categories }} 个分类 ·
-      🏷️ {{ len .Site.Taxonomies.tags }} 个标签 ·
-      📝 {{ .Site.RegularPages.Len }} 篇文章
-
+    hideCopyright: false # 🟢 false=显示版权信息 | true=隐藏
+    hideCredits: false # 🟢 false=显示主题信息 | true=隐藏
   # ---------------------------------------------------------------------------
   # 📄 文章页面显示开关 — 控制每篇文章显示哪些元素
   # ---------------------------------------------------------------------------
