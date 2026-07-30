@@ -12,7 +12,7 @@
 # 🏗️ 核心配置 — 必填项
 # =============================================================================
 baseURL: "https://0verGeek.github.io/" # 🔴 网站根 URL，生产环境必须填写
-title: "依然da文西's Blog" # 🟢 浏览器标题栏显示的文字
+title: "依然达文西's Blog" # 🟢 浏览器标题栏显示的文字
 theme: PaperMod # 🟢 主题名称（必须与 themes/ 目录匹配）
 locale: "zh-CN" # 🟡 站点语言区域设置
 defaultContentLanguage: "zh" # 🟡 默认内容语言
@@ -110,7 +110,7 @@ params:
   # 🌍 环境 & 基础信息
   # ---------------------------------------------------------------------------
   env: production # 🟢 设为 production 时会启用某些优化
-  title: "依然da文西's Blog" # 🟢 覆盖顶部 title 显示
+  title: "依然达文西's Blog" # 🟢 覆盖顶部 title 显示
   description: "这是我的个人博客" # 🟢 站点描述，SEO 重要
   keywords: [Blog, 博客, PaperMod] # 🟡 SEO 关键词
   author: "Camuss" # 🟢 全局作者名（文章可单独覆盖）
@@ -144,21 +144,21 @@ params:
   # ---------------------------------------------------------------------------
   # 🅱️ 模式 B: Profile 模式 — 显示头像+名字+按钮（个人名片风格）
   # ---------------------------------------------------------------------------
-  # profileMode:
-  #   enabled: false                                 # 🟡 改为 true 启用此模式
-  #   title: "你的名字"                              # 🟡 大标题
-  #   subtitle: "全栈开发者 / 设计师 / 终身学习者"   # 🟡 副标题
-  #   imageUrl: "/avatar.png"                        # 🟡 头像路径（放 static/ 下）
-  #   imageTitle: "这是我的头像"                     # 🟡 图片 alt 文本
-  #   imageWidth: 150                                # 🟡 图片宽度（px）
-  #   imageHeight: 150                               # 🟡 图片高度（px）
-  #   buttons:                                       # 🟡 首页按钮列表
-  #     - name: 📝 文章
-  #       url: "/posts/"
-  #     - name: 📂 归档
-  #       url: "/archives/"
-  #     - name: 🐱 GitHub
-  #       url: "https://github.com/你的用户名"
+  profileMode:
+    enabled: false                                 # 🟡 改为 true 启用此模式
+    title: "依然达文西"                              # 🟡 大标题
+    subtitle: "We can change the world"   # 🟡 副标题
+    imageUrl: "/avatar.jpg"                        # 🟡 头像路径（放 static/ 下）
+    # imageTitle: "这是我的头像"                     # 🟡 图片 alt 文本
+    imageWidth: 150                                # 🟡 图片宽度（px）
+    imageHeight: 150                               # 🟡 图片高度（px）
+    buttons:                                       # 🟡 首页按钮列表
+      - name: 📝 文章
+        url: "/posts/"
+      - name: 📂 归档
+        url: "/archives/"
+      - name: 🐱 GitHub
+        url: "https://github.com/0vergeek"
 
   # ---------------------------------------------------------------------------
   # 🔗 社交图标 — 在首页和个人资料页底部显示
@@ -181,10 +181,10 @@ params:
   # ---------------------------------------------------------------------------
   # 🖼️ 标签（Label）— 左上角显示的文字/图标
   # ---------------------------------------------------------------------------
-  # label:
+  label:
   #   text: "🏠 首页"                              # 🟡 显示文字（不设置则显示站点名）
-  #   icon: "/icon.png"                            # 🟡 图标路径
-  #   iconHeight: 35                               # 🟡 图标高度（px）
+    icon: "/icon.png"                            # 🟡 图标路径
+    iconHeight: 35                               # 🟡 图标高度（px）
   footer:
     hideCopyright: false # 🟢 false=显示版权信息 | true=隐藏
     hideCredits: false # 🟢 false=显示主题信息 | true=隐藏
