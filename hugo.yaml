@@ -115,7 +115,6 @@ params:
   keywords: [Blog, 博客, PaperMod] # 🟡 SEO 关键词
   author: "Camuss" # 🟢 全局作者名（文章可单独覆盖）
   images: ["/images/default.png"]
-
   # ---------------------------------------------------------------------------
   # 📅 日期格式
   # ---------------------------------------------------------------------------
@@ -148,7 +147,7 @@ params:
     enabled: false                                 # 🟡 改为 true 启用此模式
     title: "依然达文西"                              # 🟡 大标题
     subtitle: "We can change the world"   # 🟡 副标题
-    imageUrl: "/avatar.jpg"                        # 🟡 头像路径（放 static/ 下）
+    imageUrl: "/avatar.png"                        # 🟡 头像路径（放 static/ 下）
     # imageTitle: "这是我的头像"                     # 🟡 图片 alt 文本
     imageWidth: 150                                # 🟡 图片宽度（px）
     imageHeight: 150                               # 🟡 图片高度（px）
@@ -191,6 +190,9 @@ params:
   # ---------------------------------------------------------------------------
   # 📄 文章页面显示开关 — 控制每篇文章显示哪些元素
   # ---------------------------------------------------------------------------
+  ShowDate: true # 🟢 显示文章发布日期
+  ShowLastmod: true # 🟢 显示文章最后修改时间
+  ShowDateUpdated: true # 🟢 显示文章发布日期和最后修改时间
   ShowReadingTime: true # 🟢 显示预计阅读时间
   ShowWordCount: true # 🟢 显示字数
   ShowPageViews: true # 🟢 显示文章访问量（依赖 Waline pageview）
@@ -199,6 +201,7 @@ params:
   ShowCodeCopyButtons: true # 🟢 代码块右上角显示复制按钮
   ShowShareButtons: true # 🟡 文章底部显示分享按钮
   ShowRssButtonInSectionTermList: true # 🟡 分类/标签页显示 RSS 按钮
+  enableGitInfo: true # 🟢 启用 Git 信息（文章最后修改时间、作者等）
   UseHugoToc: false # 🟢 使用 Hugo 自带的目录生成
   ShowToc: true # 🟡 是否默认显示目录（false=折叠）
   TocOpen: true                                   # 🟡 目录是否默认展开（需配合 showtoc）

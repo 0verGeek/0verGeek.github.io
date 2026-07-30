@@ -1,9 +1,8 @@
 ---
-date: "{{ .Date }}"
+title: "`= regexreplace(this.file.name, '\\.md$', '')`"
+date: "`= dateformat(this.file.ctime, 'yyyy-MM-dd')`"
 draft: true
-title: '{{ replace .File.ContentBaseName "-" " " | title }}'
-lastmod:
-  "{ .Date }":
+lastmod: "`= dateformat(this.file.mtime, 'yyyy-MM-dd')`"
 categories: []
 tags: []
 keywords: []
@@ -18,4 +17,3 @@ cover:
   alt: ""
   relative: false
 ---
-

@@ -1,7 +1,5 @@
 ---
-title: "关于"
-# draft: false
-showToc: false
+title: 关于
 ---
 
 ## 关于本站
