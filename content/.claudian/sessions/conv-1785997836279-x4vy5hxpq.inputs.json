@@ -341,6 +341,20 @@
       "contentDigest": "45fdc8ca428ece4b556e8153f893c7d40b5d5fe7d5b5e1f876db2269ec9452cb",
       "providerUserMessageId": "41c946e8-b6a5-4766-ba3c-eedbc28e5579",
       "providerAssistantMessageId": "5e354534-fc2b-474e-9841-2e95dfedee21"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1786027512730-1vn9eng",
+      "userTurnOrdinal": 26,
+      "state": "accepted",
+      "localMessageId": "msg-1786027512584-vk55f97",
+      "timestamp": 1786027512584,
+      "rawDisplayText": "出意外了，我们的第三篇文章丢失了，快想想办法",
+      "canonicalText": "出意外了，我们的第三篇文章丢失了，快想想办法",
+      "images": [],
+      "contentDigest": "9a40c2ae1a6af84719466cb11123351d09f6a2f362144a02b358dd16be2082b3",
+      "providerUserMessageId": "d0f517c7-4b0e-4011-a66e-9eeae0d45390",
+      "providerAssistantMessageId": "06282593-d65b-4138-aa22-ea05fcab0da8"
     }
   ]
 }
