@@ -39,7 +39,7 @@ code {
     font-feature-settings: "liga" 1, "calt" 1;
 }
 
-/* .logo a {
+.logo a {
     font-family: 'FontQu Smile 常规';
     font-size: 1.7em;
 }
@@ -47,4 +47,4 @@ code {
 .nav a {
     font-family: 'Long Cang';
     font-size: 1.2em;
-} */
+}

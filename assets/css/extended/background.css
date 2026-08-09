@@ -1,13 +1,13 @@
-[data-theme="light"] body {
-    background-image: url("https://www.transparenttextures.com/patterns/paper-1.png");
-    background-repeat: repeat;
-
-}
-
-[data-theme="dark"] body {
-    /* background-image: url("https://www.transparenttextures.com/patterns/light-paper-fibers.png"); */
-    background-image: url("https://www.transparenttextures.com/patterns/paper-1.png");
-    background-blend-mode: soft-light;
-    background-repeat: repeat;
-
-}
+/* [data-theme="light"] body { */
+/*     background-image: url("https://www.transparenttextures.com/patterns/paper-1.png"); */
+/*     background-repeat: repeat; */
+/**/
+/* } */
+/**/
+/* [data-theme="dark"] body { */
+/*     /* background-image: url("https://www.transparenttextures.com/patterns/light-paper-fibers.png"); */ */
+/*     background-image: url("https://www.transparenttextures.com/patterns/paper-1.png"); */
+/*     background-blend-mode: soft-light; */
+/*     background-repeat: repeat; */
+/**/
+/* } */

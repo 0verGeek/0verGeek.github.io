@@ -7,7 +7,7 @@ tags: []
 keywords: []
 description: ""
 summary: ""
-slug: ""
+url: "/posts/" # 🔴 必填：英文短 URL，如 /posts/my-post-slug/
 autoNumbering: true
 mermaid: true
 cover:

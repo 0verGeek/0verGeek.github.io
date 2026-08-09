@@ -1,6 +1,7 @@
 ---
 title: NixOS造境手记（一）—— 系统基建
 date: 2026-08-06
+url: /posts/nixos-journey-1-infra/
 draft: true
 tags: []
 categories: []

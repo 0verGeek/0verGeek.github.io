@@ -1,24 +1,16 @@
-<head>
-    <!-- ... -->
-    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
-    <!-- Meta 图标 (可选) -->
-    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline-meta.css" />
-    <!-- ... -->
-</head>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline-meta.css" />
 
-<body>
-    <!-- ... -->
-    <div id="waline"></div>
-    <script type="module">
-        import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+<div id="waline"></div>
+<script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
 
-        init({
-            el: '#waline',
-            serverURL: 'https://0vergeek.vercel.app',
-            dark: 'html[data-theme="dark"]',
-            reaction: true,
-            pageview: true,
-            comment: true,
-        });
-    </script>
-</body>
+    init({
+        el: '#waline',
+        serverURL: 'https://0vergeek.vercel.app',
+        dark: 'html[data-theme="dark"]',
+        reaction: true,
+        pageview: true,
+        comment: true,
+    });
+</script>
