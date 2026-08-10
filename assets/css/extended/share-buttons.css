@@ -1,0 +1,19 @@
+.share-buttons a.domestic-share,
+.share-buttons button.domestic-share {
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    white-space: nowrap;
+    font-size: 0.82rem;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.share-buttons .share-icon,
+.share-buttons .domestic-share>svg {
+    width: 1.8rem;
+    height: 1.8rem;
+    flex: 0 0 1.8rem;
+}
