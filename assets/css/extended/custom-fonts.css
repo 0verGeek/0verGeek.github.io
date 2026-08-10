@@ -11,7 +11,7 @@ button,
 input,
 select,
 textarea {
-    font-family: var(--font-sans);
+    font-family: "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
 }
 
 h1,
@@ -25,7 +25,7 @@ h6,
 .post-header h1,
 .toc,
 .post-meta {
-    font-family: var(--font-serif);
+    font-family: "LXGW WenKai Screen", "Noto Serif SC", "Songti SC", "Times New Roman", serif;
 }
 
 pre,
@@ -44,7 +44,7 @@ code {
     font-size: 1.7em;
 }
 
-.nav a {
-    font-family: 'Long Cang';
-    font-size: 1.2em;
+.header-nav .menu a {
+    font-family: "LXGW WenKai Screen", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    /* font-size: 1.2em; */
 }
