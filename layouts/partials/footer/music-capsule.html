@@ -81,6 +81,7 @@
         if (ap.list.index === idx && ap.audio.paused) {
           ap.audio.src = finalUrl;
           ap.audio.preload = 'metadata';
+          ap.audio.load();
         }
       })
       .catch(function () { /* 失败保留 API 跳转链接兜底 */ });
@@ -92,9 +93,11 @@
     var fresh = cacheGetFresh(id);
     if (fresh) {
       ap.list.audios[idx].url = fresh;
+      // 仍是当前曲目且未播放：换源并预缓冲，点击即可秒播
       if (ap.list.index === idx && ap.audio.paused) {
         ap.audio.src = fresh;
         ap.audio.preload = 'metadata';
+        ap.audio.load();
       }
       return;
     }
@@ -188,14 +191,29 @@
     })
     .then(function (list) {
       if (!Array.isArray(list) || !list.length) return;
-      ids = list.map(function (s) { return s.id; });
+      // Meting API 的歌单 JSON 没有顶层 id 字段，从 url 里提取
+      function songId(s) {
+        if (s.id != null) return s.id;
+        var m = /[?&]id=(\d+)/.exec(s.url || s.lrc || '');
+        return m ? m[1] : null;
+      }
+      var songs = [];
+      list.forEach(function (s) {
+        var id = songId(s);
+        if (id != null) {
+          s.id = id;
+          songs.push(s);
+        }
+      });
+      if (!songs.length) return;
+      ids = songs.map(function (s) { return s.id; });
       ap = new APlayer({
         container: document.getElementById('aplayer-container'),
         fixed: true,
         autoplay: false,
         preload: 'none', // 初始不碰慢速 API，直链解析成功后再预缓冲
         volume: 0.7,
-        audio: list.map(function (s) {
+        audio: songs.map(function (s) {
           return {
             name: s.title || s.name || '未知歌曲',
             artist: s.author || s.artist || '',

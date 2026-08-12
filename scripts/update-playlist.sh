@@ -17,7 +17,7 @@ curl -fsS --retry 3 --retry-delay 2 \
   "$API?server=netease&type=playlist&id=$PLAYLIST_ID" -o "$TMP"
 
 python3 - "$TMP" "$API_HOST" <<'PY'
-import json, sys
+import json, re, sys
 
 data = json.load(open(sys.argv[1], encoding='utf-8'))
 host = sys.argv[2]
@@ -37,6 +37,12 @@ def walk(x):
         return [walk(v) for v in x]
     return fix(x)
 
+
+# Meting API 歌单没有顶层 id 字段，从 url 提取后前置，方便前端使用
+for i, song in enumerate(data):
+    m = re.search(r'[?&]id=(\d+)', song.get('url') or '')
+    if m:
+        data[i] = {'id': m.group(1), **song}
 
 with open('static/data/playlist.json', 'w', encoding='utf-8') as f:
     json.dump(walk(data), f, ensure_ascii=False, indent=2)
