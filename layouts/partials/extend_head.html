@@ -1,26 +1,3 @@
 {{ partial "katex.html" . }}
 {{ partial "fonts.html" . }}
 {{ partial "player.html" . }}
-
-{{- /* swup transition styles */ -}}
-<style>
-    html.is-changing .transition-main {
-        transition: opacity 0.15s ease-in-out;
-    }
-    html.is-animating .transition-main {
-        opacity: 0;
-    }
-    .swup-progress-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 3px;
-        width: 0;
-        z-index: 9999;
-        background-color: var(--primary);
-        transition: width 0.3s ease;
-    }
-</style>
-
-{{- /* Fuse.js — 全局加载用于搜索功能，swup 导航到搜索页时使用 */ -}}
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.basic.min.js" crossorigin="anonymous"></script>
