@@ -1,0 +1,261 @@
+{{- /* swup PJAX — 页面无刷新导航 */ -}}
+<script src="https://cdn.jsdelivr.net/npm/@swup/head-plugin@2/dist/index.umd.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@swup/preload-plugin@3/dist/index.umd.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swup@4/dist/Swup.umd.js" crossorigin="anonymous"></script>
+
+<script>
+(function() {
+    // 如果 swup 未加载（CDN 故障），降级为普通页面导航
+    if (typeof Swup === 'undefined') return;
+
+    // ---- Waline 评论实例引用 ----
+    var walineInstance = null;
+
+    // ---- 创建 swup 实例 ----
+    var swup = new Swup({
+        containers: ['.main'],
+        plugins: [
+            new SwupHeadPlugin(),
+            new SwupPreloadPlugin({
+                preloadVisibleLinks: true
+            })
+        ],
+        animateHistoryBrowsing: true,
+        cache: true
+    });
+
+    // ========================================
+    // 辅助函数
+    // ========================================
+
+    // 检查当前页面是否为文章页
+    function isSinglePage() {
+        return document.querySelector('.post-single') !== null;
+    }
+
+    // 同步 body class（PaperMod 用 body.list 区分列表页/文章页样式）
+    function syncBodyClass() {
+        if (isSinglePage()) {
+            document.body.classList.remove('list');
+        } else {
+            document.body.classList.add('list');
+        }
+    }
+
+    // 更新 header 导航高亮
+    function updateNavHighlight() {
+        var currentPath = window.location.pathname.replace(/\/$/, '') + '/';
+        var menuLinks = document.querySelectorAll('#menu a');
+        menuLinks.forEach(function(link) {
+            var linkPath = new URL(link.href).pathname.replace(/\/$/, '') + '/';
+            var span = link.querySelector('span');
+            if (!span) return;
+            if (currentPath === linkPath) {
+                span.classList.add('active');
+            } else {
+                span.classList.remove('active');
+            }
+        });
+    }
+
+    // KaTeX 重渲染
+    function reRenderKaTeX() {
+        var main = document.querySelector('.main');
+        if (!main) return;
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(main, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        }
+    }
+
+    // Waline 评论重新初始化
+    function reInitWalineComments() {
+        // 先销毁旧实例
+        if (walineInstance && typeof walineInstance.destroy === 'function') {
+            walineInstance.destroy();
+            walineInstance = null;
+        }
+
+        var walineEl = document.getElementById('waline');
+        if (!walineEl) return;
+
+        // 动态导入 Waline
+        import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(function(mod) {
+            walineInstance = mod.init({
+                el: '#waline',
+                serverURL: 'https://0vergeek.vercel.app',
+                dark: 'html[data-theme="dark"]',
+                reaction: false,
+                pageview: true,
+                comment: true,
+            });
+        }).catch(function() {
+            // Waline CDN 加载失败，静默降级
+        });
+    }
+
+    // 代码复制按钮（仅文章页）
+    function reInitCodeCopyButtons() {
+        if (!isSinglePage()) return;
+        document.querySelectorAll('pre > code').forEach(function(codeblock) {
+            var container = codeblock.parentNode.parentNode;
+            // 避免重复添加
+            if (container.querySelector('.copy-code')) return;
+
+            var copybutton = document.createElement('button');
+            copybutton.classList.add('copy-code');
+            copybutton.textContent = 'copy';
+
+            copybutton.addEventListener('click', function() {
+                if ('clipboard' in navigator) {
+                    navigator.clipboard.writeText(codeblock.textContent);
+                    copybutton.textContent = 'copied!';
+                    setTimeout(function() { copybutton.textContent = 'copy'; }, 2000);
+                }
+            });
+
+            if (container.classList.contains('highlight')) {
+                container.appendChild(copybutton);
+            } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName === 'TABLE') {
+                codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+            } else {
+                codeblock.parentNode.appendChild(copybutton);
+            }
+        });
+    }
+
+    // 搜索页初始化（仿照 PaperMod fastsearch.js 的行为：
+    // 同步启用输入框 + 注册事件，异步加载索引）
+    var searchFuse = null;
+    var searchIndexUrl = (window.location.origin || '') + '/index.json';
+
+    function reInitSearch() {
+        var sInput = document.getElementById('searchInput');
+        if (!sInput) return;
+
+        // 1. 同步：立即启用输入框，让用户可以点击
+        sInput.disabled = false;
+        sInput.value = '';
+        sInput.placeholder = '正在加载搜索索引...';
+
+        var resList = document.getElementById('searchResults');
+        if (resList) resList.innerHTML = '';
+
+        // 2. 同步：注册输入事件（仿照 fastsearch.js 的 performSearch）
+        var debounceTimer;
+        sInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(function() {
+                var query = sInput.value.trim();
+                if (!query) { resList.innerHTML = ''; return; }
+                if (!searchFuse) return; // 索引还未就绪
+                var results = searchFuse.search(query, { limit: 10 });
+                resList.innerHTML = '';
+                results.forEach(function(r) {
+                    var li = document.createElement('li');
+                    var link = document.createElement('a');
+                    link.className = 'entry-link';
+                    link.href = r.item.permalink;
+                    link.setAttribute('aria-label', r.item.title);
+                    li.appendChild(document.createTextNode(r.item.title));
+                    li.appendChild(link);
+                    resList.appendChild(li);
+                });
+            }, 150);
+        });
+
+        // Escape 清空
+        sInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                sInput.value = '';
+                if (resList) resList.innerHTML = '';
+            }
+        });
+
+        // 3. 异步：加载搜索索引
+        function ensureFuse(cb) {
+            if (typeof Fuse !== 'undefined') { cb(); return; }
+            var script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.basic.min.js';
+            script.crossOrigin = 'anonymous';
+            script.onload = cb;
+            script.onerror = function() {
+                sInput.placeholder = '搜索组件加载失败';
+            };
+            document.head.appendChild(script);
+        }
+
+        ensureFuse(function() {
+            if (typeof Fuse === 'undefined') return;
+
+            fetch(searchIndexUrl).then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            }).then(function(data) {
+                if (!data || !data.length) throw new Error('Empty index');
+                searchFuse = new Fuse(data, {
+                    isCaseSensitive: false,
+                    shouldSort: true,
+                    location: 0,
+                    distance: 1000,
+                    threshold: 0.4,
+                    minMatchCharLength: 0,
+                    keys: ['title', 'permalink', 'summary', 'content']
+                });
+                sInput.placeholder = '输入关键词搜索...';
+            }).catch(function(err) {
+                console.error('Search index load failed:', err);
+                sInput.placeholder = '搜索索引加载失败';
+            });
+        });
+    }
+
+    // 不蒜子计数器刷新
+    function refreshBusuanzi() {
+        var oldScript = document.querySelector('script[src*="busuanzi"]');
+        if (oldScript) oldScript.remove();
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js';
+        document.body.appendChild(script);
+    }
+
+    // ========================================
+    // swup 事件钩子
+    // ========================================
+
+    // 页面替换前：销毁 Waline 评论
+    swup.hooks.on('content:replace', function() {
+        if (walineInstance && typeof walineInstance.destroy === 'function') {
+            walineInstance.destroy();
+            walineInstance = null;
+        }
+        window.scrollTo(0, 0);
+    });
+
+    // 页面渲染完成后：重新初始化所有组件
+    swup.hooks.on('page:view', function() {
+        syncBodyClass();
+        updateNavHighlight();
+        reRenderKaTeX();
+        reInitWalineComments();
+        reInitCodeCopyButtons();
+        reInitSearch();
+
+        if (typeof window.refreshWalinePageviews === 'function') {
+            window.refreshWalinePageviews(true);
+        }
+
+        refreshBusuanzi();
+    });
+
+    // 确保初始页面状态正确
+    syncBodyClass();
+
+})();
+</script>

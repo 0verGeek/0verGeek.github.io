@@ -2,8 +2,6 @@
 {{- $serverURL := site.Params.walineServerURL }}
 <script>
     (function () {
-        if (document.getElementById('waline')) return;
-
         var serverURL = '{{ $serverURL }}';
 
         function refreshPageviews(update) {
@@ -15,6 +13,10 @@
                 });
             });
         }
+
+        // 暴露给 swup 在页面切换后调用
+        window.refreshWalinePageviews = refreshPageviews;
+
         refreshPageviews(true);
     })();
 </script>
@@ -65,3 +67,10 @@
         });
     })();
 </script>
+
+{{- /* swup PJAX — 页面无刷新导航，必须放在最后 */ -}}
+{{ partial "swup.html" . }}
+
+{{- /* 音乐播放器放在 .main 外部，页面切换时不中断 */ -}}
+<meting-js server="netease" type="playlist" id="13270992162" fixed="true" autoplay="false" preload="auto" volume="0.7">
+</meting-js>

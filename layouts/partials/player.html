@@ -9,8 +9,7 @@ var meting_api = '{{ .Site.Params.metingApi }}?server=:server&type=:type&id=:id&
 {{ end }}
 <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
 
-<meting-js server="netease" type="playlist" id="13270992162" fixed="true" autoplay="false" preload="auto" volume="0.7">
-</meting-js>
+{{- /* <meting-js> 元素已移至 extend_footer.html，放在 .main 外部以配合 swup */ -}}
 <!-- <script>
     ap = null
     Object.defineProperty(document.querySelector('meting-js'), "aplayer", {
