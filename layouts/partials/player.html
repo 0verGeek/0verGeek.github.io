@@ -7,6 +7,21 @@
 var meting_api = '{{ .Site.Params.metingApi }}?server=:server&type=:type&id=:id&auth=:auth&r=:r';
 </script>
 {{ end }}
+<script>
+// 修复 Meting API 在生产环境（HTTPS）下返回 HTTP URL 导致的 Mixed Content 拦截
+// GitHub Pages 强制 HTTPS，但 Meting API 返回的歌词/音频链接协议为 HTTP
+// 拦截 fetch 请求，将 meting-api 域名的 HTTP 请求自动升级为 HTTPS
+(function() {
+    var _fetch = window.fetch;
+    var apiHost = new URL('{{ .Site.Params.metingApi }}').host;
+    window.fetch = function(url, opts) {
+        if (typeof url === 'string' && url.indexOf('http://' + apiHost) === 0) {
+            url = url.replace('http://', 'https://');
+        }
+        return _fetch.call(this, url, opts);
+    };
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
 
 {{- /* <meting-js> 元素已移至 extend_footer.html，放在 .main 外部以配合 swup */ -}}
