@@ -9,16 +9,30 @@ var meting_api = '{{ .Site.Params.metingApi }}?server=:server&type=:type&id=:id&
 {{ end }}
 <script>
 // 修复 Meting API 在生产环境（HTTPS）下返回 HTTP URL 导致的 Mixed Content 拦截
-// GitHub Pages 强制 HTTPS，但 Meting API 返回的歌词/音频链接协议为 HTTP
-// 拦截 fetch 请求，将 meting-api 域名的 HTTP 请求自动升级为 HTTPS
+// 1. 拦截 fetch 请求，将 API 域名的 HTTP 请求升级为 HTTPS
+// 2. 拦截 API 响应体，将 JSON 中的 HTTP URL 替换为 HTTPS（歌词和音频链接）
 (function() {
     var _fetch = window.fetch;
     var apiHost = new URL('{{ .Site.Params.metingApi }}').host;
+    var httpPrefix = 'http://' + apiHost;
+    var httpsPrefix = 'https://' + apiHost;
+
     window.fetch = function(url, opts) {
-        if (typeof url === 'string' && url.indexOf('http://' + apiHost) === 0) {
-            url = url.replace('http://', 'https://');
+        if (typeof url === 'string') {
+            url = url.replace(httpPrefix, httpsPrefix);
         }
-        return _fetch.call(this, url, opts);
+
+        var isApiCall = typeof url === 'string' && url.indexOf(apiHost) !== -1;
+        var promise = _fetch.call(this, url, opts);
+
+        if (isApiCall) {
+            return promise.then(function(resp) {
+                return resp.text().then(function(body) {
+                    return new Response(body.split(httpPrefix).join(httpsPrefix), resp);
+                });
+            });
+        }
+        return promise;
     };
 })();
 </script>
