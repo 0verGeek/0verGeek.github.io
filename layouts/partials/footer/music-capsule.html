@@ -1,43 +1,10 @@
-{{- /* ====== APlayer + MetingJS 资源加载 ====== */ -}}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-{{ if .Site.Params.metingApi }}
-<script>
-    var meting_api = '{{ .Site.Params.metingApi }}?server=:server&type=:type&id=:id&auth=:auth&r=:r';
-</script>
-{{ end }}
-<script>
-    // 修复 Meting API 在生产环境（HTTPS）下返回 HTTP URL 导致的 Mixed Content 拦截
-    (function () {
-        var _fetch = window.fetch;
-        var apiHost = new URL('{{ .Site.Params.metingApi }}').host;
-        var httpPrefix = 'http://' + apiHost;
-        var httpsPrefix = 'https://' + apiHost;
+{{- with .Site.Params.metingApi -}}
+{{- /* ====== APlayer 资源（自托管，无 CDN 依赖） ====== */ -}}
+<link rel="stylesheet" href='{{ "css/aplayer.min.css" | relURL }}'>
+<script src='{{ "js/aplayer.min.js" | relURL }}'></script>
 
-        window.fetch = function (url, opts) {
-            if (typeof url === 'string') {
-                url = url.replace(httpPrefix, httpsPrefix);
-            }
-
-            var isApiCall = typeof url === 'string' && url.indexOf(apiHost) !== -1;
-            var promise = _fetch.call(this, url, opts);
-
-            if (isApiCall) {
-                return promise.then(function (resp) {
-                    return resp.text().then(function (body) {
-                        return new Response(body.split(httpPrefix).join(httpsPrefix), resp);
-                    });
-                });
-            }
-            return promise;
-        };
-    })();
-</script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
-{{- /* 音乐播放器放在 .main 外部，页面切换时不中断 */ -}}
-<meting-js server="netease" type="playlist" id="13270992162" fixed="true" autoplay="false" preload="auto" volume="0.7">
-</meting-js>
+{{- /* APlayer 本体容器（CSS 隐藏，仅胶囊 UI 可见） */ -}}
+<div id="aplayer-container"></div>
 
 {{- /* ====== 胶囊播放器 ====== */ -}}
 <div class="music-capsule" id="music-capsule">
@@ -61,29 +28,81 @@
 
 <script>
 (function () {
+  'use strict';
+
+  var METING_API = '{{ . }}';
+  var API_HOST = new URL(METING_API).host;
+  // 歌单在构建时预取为静态 JSON（scripts/update-playlist.sh），首次访问即可秒显播放器
+  var PLAYLIST_URL = '{{ "data/playlist.json" | relURL }}';
+  var URL_CACHE_KEY = 'ap-direct-urls';
+  var URL_TTL = 25 * 60 * 1000; // 网易云直链约 30 分钟过期，提前 5 分钟失效
+
   var capsule = document.getElementById('music-capsule');
   var coverImg = capsule.querySelector('.music-capsule-cover img');
   var controls = capsule.querySelector('.music-capsule-controls');
   var btnPlay = controls.querySelector('.music-capsule-play');
   var btnPrev = controls.querySelector('.music-capsule-prev');
   var btnNext = controls.querySelector('.music-capsule-next');
-  var meting = document.querySelector('meting-js');
+
   var ap = null;
+  var ids = []; // 与 ap.list.audios 同序的歌曲 id
 
-  if (!meting) return;
+  if (typeof APlayer === 'undefined') return;
 
-  // 拦截 APlayer 实例（MetingJS 异步 fetch 后创建）
-  Object.defineProperty(meting, 'aplayer', {
-    get: function () { return ap; },
-    set: function (player) {
-      ap = player;
-      if (ap) bindEvents(ap);
-    },
-    configurable: true
-  });
-  if (meting.aplayer) bindEvents(meting.aplayer);
+  /* ---------- 直链缓存：命中后播放不走慢速 API ---------- */
+  function readCache() {
+    try { return JSON.parse(localStorage.getItem(URL_CACHE_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
 
-  function bindEvents(ap) {
+  function cacheSet(id, url) {
+    var c = readCache();
+    c[id] = { url: url, ts: Date.now() };
+    try { localStorage.setItem(URL_CACHE_KEY, JSON.stringify(c)); } catch (e) {}
+  }
+
+  function cacheGetFresh(id) {
+    var entry = readCache()[id];
+    if (entry && Date.now() - entry.ts < URL_TTL) return entry.url;
+    return null;
+  }
+
+  /* ---------- 直链解析：API 302 → 网易云 CDN，取最终地址 ---------- */
+  function resolveDirectUrl(id, idx) {
+    fetch(METING_API + '?server=netease&type=url&id=' + id)
+      .then(function (resp) {
+        var finalUrl = resp.url || '';
+        if (!finalUrl || finalUrl.indexOf(API_HOST) !== -1) return; // 未拿到直链
+        cacheSet(id, finalUrl);
+        var audio = ap.list.audios[idx];
+        if (!audio) return;
+        audio.url = finalUrl;
+        // 仍是当前曲目且未播放：换源并预缓冲，点击即可秒播
+        if (ap.list.index === idx && ap.audio.paused) {
+          ap.audio.src = finalUrl;
+          ap.audio.preload = 'metadata';
+        }
+      })
+      .catch(function () { /* 失败保留 API 跳转链接兜底 */ });
+  }
+
+  function prefetch(idx) {
+    var id = ids[idx];
+    if (id == null) return;
+    var fresh = cacheGetFresh(id);
+    if (fresh) {
+      ap.list.audios[idx].url = fresh;
+      if (ap.list.index === idx && ap.audio.paused) {
+        ap.audio.src = fresh;
+        ap.audio.preload = 'metadata';
+      }
+      return;
+    }
+    resolveDirectUrl(id, idx);
+  }
+
+  /* ---------- 胶囊 UI 绑定 ---------- */
+  function bindEvents() {
     // 首帧：封面就绪后再显示胶囊
     updateCover(ap, function () {
       capsule.classList.add('is-ready');
@@ -93,6 +112,7 @@
     ap.on('listswitch', function () {
       updateCover(ap);
       updatePlayState(ap);
+      prefetch(ap.list.index);
     });
     ap.on('play', function () {
       updatePlayState(ap);
@@ -159,5 +179,36 @@
       capsule.classList.add('is-idle');
     }, IDLE_DELAY);
   });
+
+  /* ---------- 初始化：静态歌单秒出，音频直链后台懒解析 ---------- */
+  fetch(PLAYLIST_URL)
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function (list) {
+      if (!Array.isArray(list) || !list.length) return;
+      ids = list.map(function (s) { return s.id; });
+      ap = new APlayer({
+        container: document.getElementById('aplayer-container'),
+        fixed: true,
+        autoplay: false,
+        preload: 'none', // 初始不碰慢速 API，直链解析成功后再预缓冲
+        volume: 0.7,
+        audio: list.map(function (s) {
+          return {
+            name: s.title || s.name || '未知歌曲',
+            artist: s.author || s.artist || '',
+            url: METING_API + '?server=netease&type=url&id=' + s.id,
+            cover: s.pic || s.cover || '',
+            lrc: METING_API + '?server=netease&type=lrc&id=' + s.id
+          };
+        })
+      });
+      bindEvents();
+      prefetch(ap.list.index);
+    })
+    .catch(function (err) { console.error('歌单加载失败:', err); });
 })();
 </script>
+{{- end -}}
