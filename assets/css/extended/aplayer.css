@@ -1,0 +1,209 @@
+/* ============================================================
+   胶囊播放器 — 完整设计系统
+
+   展开态平面（尺寸 px，原点 = 容器右边缘）：
+   0    4             44    52                          162   172
+   ├────┼─────────────┼─────┼───────────────────────────┼─────┤
+   │ 4  │  封面 40    │  8  │   按钮组 pill 110×38      │ 10  │
+   │    │             │     │  ⏮30 ⏯30 ⏭30 pad6 gap4  │     │
+   ├────┴─────────────┴─────┴───────────────────────────┴─────┤
+   │              bg 总宽 172 (容器48 + 左延124)               │
+   └──────────────────────────────────────────────────────────┘
+
+   收起态：bg = 48×48 圆角方形，封面 40×40 居中，4px 底色环
+   ============================================================ */
+
+.aplayer {
+    display: none !important;
+}
+
+.music-capsule {
+    /* === 尺寸 === */
+    --size: 3rem;
+    /* 48px 胶囊容器 */
+    --radius: calc(var(--size) / 2);
+    /* 24px 圆角 */
+
+    /* === 封面 === */
+    --cover-inset: 4px;
+    /* 环宽 */
+
+    /* === 按钮组 === */
+    --btn-size: 30px;
+    /* 按钮直径 */
+    --btn-gap: 4px;
+    /* 按钮间距 */
+    --btn-count: 3;
+    /* 按钮数量 */
+    --btn-pad-x: 6px;
+    /* 按钮组水平内边距 */
+    --ctrl-vpad: 4px;
+    /* 按钮组垂直内边距 */
+
+    /* === 间距 === */
+    --ctrl-gap: 6px;
+    /* 封面到按钮组的视觉间距 */
+    --ctrl-pad: 6px;
+    /* 末端留白 */
+
+    /* === 自动计算：bg 向左扩展量 === */
+    --ctrls-width: calc(-1 * var(--cover-inset) + var(--ctrl-gap) + var(--btn-count) * var(--btn-size) + (var(--btn-count) - 1) * var(--btn-gap) + 2 * var(--btn-pad-x) + var(--ctrl-pad));
+
+    position: fixed;
+    bottom: 7rem;
+    right: 2rem;
+    z-index: 100;
+    width: var(--size);
+    height: var(--size);
+    visibility: hidden;
+}
+
+.music-capsule.is-ready {
+    visibility: visible;
+}
+
+/* ---- 背景层 ---- */
+.music-capsule-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: var(--entry);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: left 0.4s ease,
+        border-radius 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.music-capsule:hover .music-capsule-bg {
+    left: calc(-1 * var(--ctrls-width));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* ---- 封面 ---- */
+.music-capsule-cover {
+    position: absolute;
+    right: var(--cover-inset);
+    top: var(--cover-inset);
+    z-index: 2;
+    width: calc(var(--size) - 2 * var(--cover-inset));
+    height: calc(var(--size) - 2 * var(--cover-inset));
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.music-capsule-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.music-capsule.is-playing .music-capsule-cover img {
+    animation: vinyl-spin 12s linear infinite;
+}
+
+.music-capsule.is-paused .music-capsule-cover img {
+    animation: vinyl-spin 12s linear infinite;
+    animation-play-state: paused;
+}
+
+@keyframes vinyl-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---- 按钮组 pill ---- */
+.music-capsule-controls {
+    position: absolute;
+    /* 右侧对齐到：cover-inset(4) + cover-width(40) + gap(8) = 封面左边缘 + 8px */
+    right: calc(var(--size) - var(--cover-inset) + var(--ctrl-gap));
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: var(--btn-gap);
+    padding: var(--ctrl-vpad) var(--btn-pad-x);
+    border-radius: calc(var(--btn-size) / 2 + var(--ctrl-vpad));
+    background: var(--code-bg);
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s ease;
+}
+
+.music-capsule:hover .music-capsule-controls {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.2s ease 0.22s;
+}
+
+/* ---- 单个按钮 ---- */
+.music-capsule-btn {
+    display: grid;
+    place-items: center;
+    width: var(--btn-size);
+    height: var(--btn-size);
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--primary);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.music-capsule-btn:hover {
+    background: var(--entry);
+}
+
+.music-capsule-btn svg {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+}
+
+/* 播放按钮 */
+.music-capsule-btn.music-capsule-play {
+    color: #fff;
+    background: var(--primary);
+}
+
+.music-capsule-btn.music-capsule-play:hover {
+    opacity: 0.85;
+}
+
+/* 图标切换 */
+.music-capsule-play .icon-pause {
+    display: none;
+}
+
+.music-capsule.is-playing .music-capsule-play .icon-play {
+    display: none;
+}
+
+.music-capsule.is-playing .music-capsule-play .icon-pause {
+    display: block;
+}
+
+/* 暗色模式：播放按钮白字 → 暗字 */
+[data-theme="dark"] .music-capsule-btn.music-capsule-play {
+    color: var(--theme);
+}
+
+/* 3 秒不 hover 自动淡出 */
+.music-capsule.is-idle {
+    opacity: 0.12;
+    transition: opacity 0.6s ease 0.3s;
+}
+
+.music-capsule.is-idle:hover {
+    opacity: 1;
+    transition: opacity 0.15s ease;
+}

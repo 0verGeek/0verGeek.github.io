@@ -1,0 +1,23 @@
+{{- if and (.Param "ShowPageViews") site.Params.walineServerURL }}
+{{- $serverURL := site.Params.walineServerURL }}
+<script>
+    (function () {
+        var serverURL = '{{ $serverURL }}';
+
+        function refreshPageviews(update) {
+            import('https://unpkg.com/@waline/client@v3/dist/pageview.js').then(function (mod) {
+                mod.pageviewCount({
+                    serverURL: serverURL,
+                    path: window.location.pathname,
+                    update: update,
+                });
+            });
+        }
+
+        // 暴露给 swup 在页面切换后调用
+        window.refreshWalinePageviews = refreshPageviews;
+
+        refreshPageviews(true);
+    })();
+</script>
+{{- end }}

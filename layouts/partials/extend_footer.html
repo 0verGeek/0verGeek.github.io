@@ -1,76 +1,14 @@
-{{- if and (.Param "ShowPageViews") site.Params.walineServerURL }}
-{{- $serverURL := site.Params.walineServerURL }}
-<script>
-    (function () {
-        var serverURL = '{{ $serverURL }}';
+{{- /* ============================================
+   extend_footer — 按功能拆分为独立 partial
+   加载顺序：统计 → 顶栏 → PJAX → 播放器
+   ============================================ */ -}}
 
-        function refreshPageviews(update) {
-            import('https://unpkg.com/@waline/client@v3/dist/pageview.js').then(function (mod) {
-                mod.pageviewCount({
-                    serverURL: serverURL,
-                    path: window.location.pathname,
-                    update: update,
-                });
-            });
-        }
-
-        // 暴露给 swup 在页面切换后调用
-        window.refreshWalinePageviews = refreshPageviews;
-
-        refreshPageviews(true);
-    })();
-</script>
-{{- end }}
-<script async src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
-
-<span class="footer-stats">
-    📂 {{ len .Site.Taxonomies.categories }} 个分类 ·
-    🏷️ {{ len .Site.Taxonomies.tags }} 个标签 ·
-    📝 {{ .Site.RegularPages.Len }} 篇文章
-    👀本站总访问量 <span id="busuanzi_site_pv">加载中...</span> 次
-    ☀️今日总访客数 <span id="busuanzi_today_uv">加载中...</span> 人
-    <br>
-</span>
-
-<script>
-    (function () {
-        // 页脚统计注入到 <footer> 内部顶部
-        var stats = document.querySelector('.footer-stats');
-        var footer = document.querySelector('footer.footer');
-        if (stats && footer) {
-            footer.insertBefore(stats, footer.firstChild);
-        }
-    })();
-</script>
-
-<script>
-    (function () {
-        var topLink = document.getElementById('top-link');
-        if (!topLink) return;
-
-        // 替换为自定义结构（三角 SVG + 阅读进度），保留主题的 hidden 类
-        topLink.innerHTML = '<span class="topInner">' +
-            '<svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">' +
-            '<path d="M12 6H0l6-6z" />' +
-            '</svg>' +
-            '<span id="read_progress"></span>' +
-            '</span>';
-
-        // 阅读进度监听（addEventListener 不与主题 window.onscroll 冲突）
-        document.addEventListener('scroll', function () {
-            var el = document.getElementById('read_progress');
-            if (!el) return;
-            var sh = document.documentElement.scrollHeight;
-            var ch = document.documentElement.clientHeight;
-            var st = document.documentElement.scrollTop || document.body.scrollTop;
-            el.innerText = ((st / (sh - ch)).toFixed(2) * 100).toFixed(0);
-        });
-    })();
-</script>
+{{ partial "footer/waline.html" . }}
+{{ partial "footer/stats.html" . }}
+{{ partial "footer/toplink.html" . }}
 
 {{- /* swup PJAX — 页面无刷新导航，必须放在最后 */ -}}
 {{ partial "swup.html" . }}
 
-{{- /* 音乐播放器放在 .main 外部，页面切换时不中断 */ -}}
-<meting-js server="netease" type="playlist" id="13270992162" fixed="true" autoplay="false" preload="auto" volume="0.7">
-</meting-js>
+{{- /* 胶囊音乐播放器 */ -}}
+{{ partial "footer/music-capsule.html" . }}

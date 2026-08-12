@@ -1,0 +1,163 @@
+{{- /* ====== APlayer + MetingJS 资源加载 ====== */ -}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+{{ if .Site.Params.metingApi }}
+<script>
+    var meting_api = '{{ .Site.Params.metingApi }}?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+</script>
+{{ end }}
+<script>
+    // 修复 Meting API 在生产环境（HTTPS）下返回 HTTP URL 导致的 Mixed Content 拦截
+    (function () {
+        var _fetch = window.fetch;
+        var apiHost = new URL('{{ .Site.Params.metingApi }}').host;
+        var httpPrefix = 'http://' + apiHost;
+        var httpsPrefix = 'https://' + apiHost;
+
+        window.fetch = function (url, opts) {
+            if (typeof url === 'string') {
+                url = url.replace(httpPrefix, httpsPrefix);
+            }
+
+            var isApiCall = typeof url === 'string' && url.indexOf(apiHost) !== -1;
+            var promise = _fetch.call(this, url, opts);
+
+            if (isApiCall) {
+                return promise.then(function (resp) {
+                    return resp.text().then(function (body) {
+                        return new Response(body.split(httpPrefix).join(httpsPrefix), resp);
+                    });
+                });
+            }
+            return promise;
+        };
+    })();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+{{- /* 音乐播放器放在 .main 外部，页面切换时不中断 */ -}}
+<meting-js server="netease" type="playlist" id="13270992162" fixed="true" autoplay="false" preload="auto" volume="0.7">
+</meting-js>
+
+{{- /* ====== 胶囊播放器 ====== */ -}}
+<div class="music-capsule" id="music-capsule">
+  <div class="music-capsule-bg"></div>
+  <div class="music-capsule-controls">
+    <button class="music-capsule-btn music-capsule-prev" aria-label="上一曲">
+      <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+    </button>
+    <button class="music-capsule-btn music-capsule-play" aria-label="播放">
+      <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    <button class="music-capsule-btn music-capsule-next" aria-label="下一曲">
+      <svg viewBox="0 0 24 24"><path d="m6 18 8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg>
+    </button>
+  </div>
+  <div class="music-capsule-cover">
+    <img src="" alt="" />
+  </div>
+</div>
+
+<script>
+(function () {
+  var capsule = document.getElementById('music-capsule');
+  var coverImg = capsule.querySelector('.music-capsule-cover img');
+  var controls = capsule.querySelector('.music-capsule-controls');
+  var btnPlay = controls.querySelector('.music-capsule-play');
+  var btnPrev = controls.querySelector('.music-capsule-prev');
+  var btnNext = controls.querySelector('.music-capsule-next');
+  var meting = document.querySelector('meting-js');
+  var ap = null;
+
+  if (!meting) return;
+
+  // 拦截 APlayer 实例（MetingJS 异步 fetch 后创建）
+  Object.defineProperty(meting, 'aplayer', {
+    get: function () { return ap; },
+    set: function (player) {
+      ap = player;
+      if (ap) bindEvents(ap);
+    },
+    configurable: true
+  });
+  if (meting.aplayer) bindEvents(meting.aplayer);
+
+  function bindEvents(ap) {
+    // 首帧：封面就绪后再显示胶囊
+    updateCover(ap, function () {
+      capsule.classList.add('is-ready');
+    });
+    updatePlayState(ap);
+    // 切歌 — listswitch + play 双保险
+    ap.on('listswitch', function () {
+      updateCover(ap);
+      updatePlayState(ap);
+    });
+    ap.on('play', function () {
+      updatePlayState(ap);
+      updateCover(ap);
+    });
+    ap.on('pause', function () { updatePlayState(ap); });
+  }
+
+  function updateCover(ap, onReady) {
+    var list = ap.list;
+    var audio = list.audios[list.index];
+    if (audio && audio.cover) {
+      if (coverImg.src !== audio.cover) {
+        coverImg.src = audio.cover;
+        coverImg.alt = audio.name || '';
+        coverImg.onload = function () { if (onReady) onReady(); };
+        coverImg.onerror = function () { if (onReady) onReady(); };
+      } else if (onReady && coverImg.complete && coverImg.naturalWidth > 0) {
+        onReady();
+      }
+    } else if (onReady) {
+      onReady();
+    }
+  }
+
+  function updatePlayState(ap) {
+    var playing = !ap.audio.paused;
+    capsule.classList.toggle('is-playing', playing);
+    capsule.classList.toggle('is-paused', !playing);
+  }
+
+  btnPlay.addEventListener('click', function () {
+    if (!ap) return;
+    ap.audio.paused ? ap.play() : ap.pause();
+  });
+  btnPrev.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (!ap) return;
+    var list = ap.list;
+    if (!list.audios.length) return;
+    var idx = list.index - 1;
+    if (idx < 0) idx = list.audios.length - 1;
+    list.switch(idx);
+  });
+  btnNext.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (!ap) return;
+    var list = ap.list;
+    if (!list.audios.length) return;
+    var idx = (list.index + 1) % list.audios.length;
+    list.switch(idx);
+  });
+
+  /* 3 秒不 hover 自动隐藏 */
+  var idleTimer = null;
+  var IDLE_DELAY = 3000;
+
+  capsule.addEventListener('mouseenter', function () {
+    clearTimeout(idleTimer);
+    capsule.classList.remove('is-idle');
+  });
+  capsule.addEventListener('mouseleave', function () {
+    idleTimer = setTimeout(function () {
+      capsule.classList.add('is-idle');
+    }, IDLE_DELAY);
+  });
+})();
+</script>

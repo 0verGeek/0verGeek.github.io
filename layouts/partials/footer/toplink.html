@@ -1,0 +1,24 @@
+<script>
+    (function () {
+        var topLink = document.getElementById('top-link');
+        if (!topLink) return;
+
+        // 替换为自定义结构（三角 SVG + 阅读进度），保留主题的 hidden 类
+        topLink.innerHTML = '<span class="topInner">' +
+            '<svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">' +
+            '<path d="M12 6H0l6-6z" />' +
+            '</svg>' +
+            '<span id="read_progress"></span>' +
+            '</span>';
+
+        // 阅读进度监听（addEventListener 不与主题 window.onscroll 冲突）
+        document.addEventListener('scroll', function () {
+            var el = document.getElementById('read_progress');
+            if (!el) return;
+            var sh = document.documentElement.scrollHeight;
+            var ch = document.documentElement.clientHeight;
+            var st = document.documentElement.scrollTop || document.body.scrollTop;
+            el.innerText = ((st / (sh - ch)).toFixed(2) * 100).toFixed(0);
+        });
+    })();
+</script>
