@@ -2,17 +2,18 @@
    胶囊播放器 — 完整设计系统
 
    展开态平面（尺寸 px，原点 = 容器右边缘）：
-   0    4             44    52                          162   172
+   0    4             44    50                          160   166
    ├────┼─────────────┼─────┼───────────────────────────┼─────┤
-   │ 4  │  封面 40    │  8  │   按钮组 pill 110×38      │ 10  │
+   │ 4  │  封面 40    │  6  │   按钮组 pill 110×38      │  6  │
    │    │             │     │  ⏮30 ⏯30 ⏭30 pad6 gap4  │     │
    ├────┴─────────────┴─────┴───────────────────────────┴─────┤
-   │              bg 总宽 172 (容器48 + 左延124)               │
+   │              bg 总宽 166 (容器48 + 左延118)               │
    └──────────────────────────────────────────────────────────┘
 
    收起态：bg = 48×48 圆角方形，封面 40×40 居中，4px 底色环
    ============================================================ */
 
+/* APlayer 本体仅作音频引擎，UI 永久隐藏（已移除其默认样式表，无视觉依赖） */
 .aplayer {
     display: none !important;
 }
@@ -46,8 +47,13 @@
     --ctrl-pad: 6px;
     /* 末端留白 */
 
-    /* === 自动计算：bg 向左扩展量 === */
-    --ctrls-width: calc(-1 * var(--cover-inset) + var(--ctrl-gap) + var(--btn-count) * var(--btn-size) + (var(--btn-count) - 1) * var(--btn-gap) + 2 * var(--btn-pad-x) + var(--ctrl-pad));
+    /* === 自动计算 === */
+    --pill-w: calc(var(--btn-count) * var(--btn-size) + (var(--btn-count) - 1) * var(--btn-gap) + 2 * var(--btn-pad-x));
+    /* 按钮组总宽 */
+    --pill-overhang: calc(-1 * var(--cover-inset) + var(--ctrl-gap));
+    /* 按钮组右缘超出容器左缘的量 */
+    --ctrls-width: calc(var(--pill-overhang) + var(--pill-w) + var(--ctrl-pad));
+    /* bg 向左扩展量 */
 
     position: fixed;
     bottom: 7rem;
@@ -96,15 +102,13 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    /* 旋转动画常驻：暂停停住、播放续转（只切 play-state，动画不重置） */
+    animation: vinyl-spin 12s linear infinite;
+    animation-play-state: paused;
 }
 
 .music-capsule.is-playing .music-capsule-cover img {
-    animation: vinyl-spin 12s linear infinite;
-}
-
-.music-capsule.is-paused .music-capsule-cover img {
-    animation: vinyl-spin 12s linear infinite;
-    animation-play-state: paused;
+    animation-play-state: running;
 }
 
 @keyframes vinyl-spin {
@@ -120,8 +124,8 @@
 /* ---- 按钮组 pill ---- */
 .music-capsule-controls {
     position: absolute;
-    /* 右侧对齐到：cover-inset(4) + cover-width(40) + gap(8) = 封面左边缘 + 8px */
-    right: calc(var(--size) - var(--cover-inset) + var(--ctrl-gap));
+    /* 右缘对齐到容器左缘 + pill-overhang(2px)，与 --ctrls-width 共享同一来源 */
+    right: calc(var(--size) + var(--pill-overhang));
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
@@ -156,7 +160,7 @@
     background: transparent;
     color: var(--primary);
     cursor: pointer;
-    transition: background 0.15s ease;
+    transition: background 0.15s ease, opacity 0.15s ease;
 }
 
 .music-capsule-btn:hover {
@@ -203,7 +207,8 @@
     transition: opacity 0.6s ease 0.3s;
 }
 
-.music-capsule.is-idle:hover {
+.music-capsule.is-idle:hover,
+.music-capsule.is-idle:focus-within {
     opacity: 1;
     transition: opacity 0.15s ease;
 }

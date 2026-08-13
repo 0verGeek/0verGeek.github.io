@@ -1,6 +1,5 @@
 {{- with .Site.Params.metingApi -}}
-{{- /* ====== APlayer 资源（自托管，无 CDN 依赖） ====== */ -}}
-<link rel="stylesheet" href='{{ "css/aplayer.min.css" | relURL }}'>
+{{- /* ====== APlayer 资源（自托管，无 CDN 依赖；本体 UI 隐藏，无需其默认样式） ====== */ -}}
 <script src='{{ "js/aplayer.min.js" | relURL }}'></script>
 
 {{- /* APlayer 本体容器（CSS 隐藏，仅胶囊 UI 可见） */ -}}
@@ -22,7 +21,7 @@
     </button>
   </div>
   <div class="music-capsule-cover">
-    <img src="" alt="" />
+    <img alt="" />
   </div>
 </div>
 
@@ -30,8 +29,11 @@
 (function () {
   'use strict';
 
-  var METING_API = '{{ . }}';
-  var API_HOST = new URL(METING_API).host;
+  var METING_API = {{ . | jsonify | safeJS }};
+  var API_HOST = '';
+  try {
+    API_HOST = new URL(METING_API).host;
+  } catch (e) { /* 配置非法：host 过滤失效，直链缓存走保守策略 */ }
   // 歌单在构建时预取为静态 JSON（scripts/update-playlist.sh），首次访问即可秒显播放器
   var PLAYLIST_URL = '{{ "data/playlist.json" | relURL }}';
   var URL_CACHE_KEY = 'ap-direct-urls';
@@ -106,27 +108,29 @@
 
   /* ---------- 胶囊 UI 绑定 ---------- */
   function bindEvents() {
-    // 首帧：封面就绪后再显示胶囊
+    // 首帧：封面就绪后再显示胶囊，并开始首次淡化倒计时
     updateCover(ap, function () {
       capsule.classList.add('is-ready');
+      startIdleTimer();
     });
     updatePlayState(ap);
     // 切歌 — listswitch + play 双保险
-    ap.on('listswitch', function () {
-      updateCover(ap);
+    // 注意：APlayer 在 list.switch 里先触发 listswitch 再更新 list.index，
+    // 事件回调中 ap.list.index 仍是旧值，必须使用事件参数 data.index
+    ap.on('listswitch', function (data) {
+      var idx = (data && data.index != null) ? data.index : ap.list.index;
+      updateCover(ap, null, idx);
       updatePlayState(ap);
-      prefetch(ap.list.index);
+      prefetch(idx);
     });
-    ap.on('play', function () {
-      updatePlayState(ap);
-      updateCover(ap);
-    });
+    ap.on('play', function () { updatePlayState(ap); });
     ap.on('pause', function () { updatePlayState(ap); });
   }
 
-  function updateCover(ap, onReady) {
+  function updateCover(ap, onReady, idx) {
     var list = ap.list;
-    var audio = list.audios[list.index];
+    var index = (idx == null) ? list.index : idx;
+    var audio = list.audios[index];
     if (audio && audio.cover) {
       if (coverImg.src !== audio.cover) {
         coverImg.src = audio.cover;
@@ -144,15 +148,14 @@
   function updatePlayState(ap) {
     var playing = !ap.audio.paused;
     capsule.classList.toggle('is-playing', playing);
-    capsule.classList.toggle('is-paused', !playing);
+    btnPlay.setAttribute('aria-label', playing ? '暂停' : '播放');
   }
 
   btnPlay.addEventListener('click', function () {
     if (!ap) return;
     ap.audio.paused ? ap.play() : ap.pause();
   });
-  btnPrev.addEventListener('click', function (e) {
-    e.stopPropagation();
+  btnPrev.addEventListener('click', function () {
     if (!ap) return;
     var list = ap.list;
     if (!list.audios.length) return;
@@ -160,8 +163,7 @@
     if (idx < 0) idx = list.audios.length - 1;
     list.switch(idx);
   });
-  btnNext.addEventListener('click', function (e) {
-    e.stopPropagation();
+  btnNext.addEventListener('click', function () {
     if (!ap) return;
     var list = ap.list;
     if (!list.audios.length) return;
@@ -169,19 +171,22 @@
     list.switch(idx);
   });
 
-  /* 3 秒不 hover 自动隐藏 */
+  /* 3 秒不 hover 自动淡化 */
   var idleTimer = null;
   var IDLE_DELAY = 3000;
+
+  function startIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function () {
+      capsule.classList.add('is-idle');
+    }, IDLE_DELAY);
+  }
 
   capsule.addEventListener('mouseenter', function () {
     clearTimeout(idleTimer);
     capsule.classList.remove('is-idle');
   });
-  capsule.addEventListener('mouseleave', function () {
-    idleTimer = setTimeout(function () {
-      capsule.classList.add('is-idle');
-    }, IDLE_DELAY);
-  });
+  capsule.addEventListener('mouseleave', startIdleTimer);
 
   /* ---------- 初始化：静态歌单秒出，音频直链后台懒解析 ---------- */
   fetch(PLAYLIST_URL)
@@ -209,7 +214,6 @@
       ids = songs.map(function (s) { return s.id; });
       ap = new APlayer({
         container: document.getElementById('aplayer-container'),
-        fixed: true,
         autoplay: false,
         preload: 'none', // 初始不碰慢速 API，直链解析成功后再预缓冲
         volume: 0.7,
