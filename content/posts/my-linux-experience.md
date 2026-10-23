@@ -3,7 +3,6 @@ title: test
 is_published: true
 slug: my-linux-experience
 url: /posts/
-date: <% tp.date.now('YYYY-MM-DDTHH:mm:ssZZ') %>
 draft: true
 tags: []
 categories: []
