@@ -1,5 +1,0 @@
-{
-    "buildCommand": "hugo --minify",
-    "outputDictionary": "public",
-    "hugoVersion": "0.162.1"
-}
