@@ -1,5 +1,5 @@
 ---
-title: <% tp.file.title%>
+title: test
 is_published: true
 slug: my-linux-experience
 url: /posts/
