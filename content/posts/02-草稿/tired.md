@@ -1,7 +1,7 @@
 ---
 title: tired
 date: 2026-10-24T12:56:53+0800
-draft: true
+draft: false
 tags: []
 categories: []
 description: ""
